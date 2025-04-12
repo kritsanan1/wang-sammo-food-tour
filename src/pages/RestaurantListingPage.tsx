@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Restaurant, RestaurantFilters } from '@/types';
-import { Search, Filter, ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { Search, Filter, ChevronDown, ChevronUp, Star, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   Accordion,
