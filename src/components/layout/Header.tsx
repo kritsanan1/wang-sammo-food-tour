@@ -1,215 +1,229 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Search, ShoppingBag, User, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ShoppingBag, Search, Menu, X } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+import { useMobile } from '@/hooks/use-mobile';
 
-interface HeaderProps {
-  cartItemCount?: number;
-  isLoggedIn?: boolean;
-  userName?: string;
-}
+const Header: React.FC = () => {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const isMobile = useMobile();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-const Header: React.FC<HeaderProps> = ({ 
-  cartItemCount = 0, 
-  isLoggedIn = false,
-  userName = ''
-}) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  
+  // Function to get user initials for avatar
+  const getUserInitials = () => {
+    if (!user || !user.user_metadata?.name) return '?';
+    const name = user.user_metadata.name;
+    const words = name.split(' ');
+    if (words.length === 1) return words[0][0].toUpperCase();
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  };
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/975c6206-3406-471a-bca9-0667ca761386.png" 
-            alt="Tour Der Wang Logo" 
-            className="h-10 w-auto" 
-          />
-          <span className="hidden md:inline-block font-bold text-lg text-tourwang-brown">
-            ที่นี่ วังสามหมอ
-          </span>
+        <Link to="/" className="flex items-center space-x-2">
+          <span className="font-bold text-xl text-tourwang-brown">ที่นี่วังสามหมอ</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link to="/">
-                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    หน้าหลัก
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/restaurants">
-                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    ร้านอาหาร
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/orders">
-                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    ออเดอร์ของฉัน
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-          
-          {/* Desktop Search */}
-          <div className="relative w-[200px] lg:w-[300px]">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="ค้นหาร้านอาหารหรือเมนู..."
-              className="w-full rounded-md pl-8 md:w-[200px] lg:w-[300px]"
+        <nav className="hidden md:flex items-center space-x-6">
+          <Link 
+            to="/" 
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            หน้าหลัก
+          </Link>
+          <Link 
+            to="/restaurants" 
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            ร้านอาหาร
+          </Link>
+          {user && (
+            <Link 
+              to="/orders" 
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              ออเดอร์ของฉัน
+            </Link>
+          )}
+        </nav>
+
+        {/* Search Bar - Desktop */}
+        <div className="hidden md:flex items-center space-x-4 flex-1 px-4">
+          <div className="relative w-full max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input 
+              type="search" 
+              placeholder="ค้นหาร้านอาหารหรือเมนู..." 
+              className="pl-10 focus-visible:ring-tourwang-orange"
             />
           </div>
-          
-          {/* Cart Button */}
-          <Link to="/cart">
-            <Button variant="outline" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-tourwang-orange text-[10px] font-medium text-white">
-                  {cartItemCount}
-                </span>
-              )}
-            </Button>
-          </Link>
+        </div>
 
-          {/* Authentication */}
-          {isLoggedIn ? (
-            <Link to="/account">
-              <Button variant="ghost" className="flex gap-2 items-center">
-                <User className="h-4 w-4" />
-                <span className="max-w-[100px] truncate">{userName}</span>
+        {/* User Menu & Cart - Desktop */}
+        <div className="hidden md:flex items-center space-x-2">
+          {user ? (
+            <>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={() => navigate('/cart')}
+              >
+                <ShoppingBag className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-tourwang-orange text-white text-xs flex items-center justify-center">
+                  0
+                </span>
               </Button>
-            </Link>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback className="bg-tourwang-orange text-white">
+                        {getUserInitials()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>บัญชีของฉัน</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/account')}>
+                    ข้อมูลส่วนตัว
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/orders')}>
+                    ประวัติการสั่งซื้อ
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut}>
+                    ออกจากระบบ
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
-            <Link to="/login">
-              <Button variant="default" className="bg-tourwang-orange hover:bg-tourwang-orange/90">
-                เข้าสู่ระบบ
-              </Button>
-            </Link>
+            <Button variant="default" onClick={() => navigate('/login')}>
+              เข้าสู่ระบบ
+            </Button>
           )}
         </div>
 
-        {/* Mobile Navigation */}
-        <div className="flex md:hidden items-center gap-4">
-          {/* Mobile Search Toggle */}
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="relative"
-          >
-            {isSearchOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Search className="h-5 w-5" />
-            )}
-          </Button>
-
-          {/* Mobile Cart */}
-          <Link to="/cart">
-            <Button variant="ghost" size="icon" className="relative">
+        {/* Mobile Menu */}
+        <div className="md:hidden flex items-center space-x-2">
+          {user && (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => navigate('/cart')}
+            >
               <ShoppingBag className="h-5 w-5" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-tourwang-orange text-[10px] font-medium text-white">
-                  {cartItemCount}
-                </span>
-              )}
+              <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-tourwang-orange text-white text-xs flex items-center justify-center">
+                0
+              </span>
             </Button>
-          </Link>
-
-          {/* Mobile Menu */}
+          )}
+          
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <nav className="flex flex-col gap-6 mt-8">
-                <Link 
-                  to="/" 
-                  className="text-lg font-medium hover:text-tourwang-orange transition-colors"
-                >
-                  หน้าหลัก
-                </Link>
-                <Link 
-                  to="/restaurants" 
-                  className="text-lg font-medium hover:text-tourwang-orange transition-colors"
-                >
-                  ร้านอาหาร
-                </Link>
-                <Link 
-                  to="/orders" 
-                  className="text-lg font-medium hover:text-tourwang-orange transition-colors"
-                >
-                  ออเดอร์ของฉัน
-                </Link>
-                <div className="border-t my-4 pt-4">
-                  {isLoggedIn ? (
+            <SheetContent side="right">
+              <div className="flex flex-col h-full">
+                <div className="py-6">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      type="search" 
+                      placeholder="ค้นหาร้านอาหารหรือเมนู..." 
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                
+                <nav className="flex flex-col space-y-4">
+                  <Link 
+                    to="/" 
+                    className="text-lg font-medium hover:text-tourwang-orange"
+                  >
+                    หน้าหลัก
+                  </Link>
+                  <Link 
+                    to="/restaurants" 
+                    className="text-lg font-medium hover:text-tourwang-orange"
+                  >
+                    ร้านอาหาร
+                  </Link>
+                  {user && (
                     <>
                       <Link 
+                        to="/orders" 
+                        className="text-lg font-medium hover:text-tourwang-orange"
+                      >
+                        ออเดอร์ของฉัน
+                      </Link>
+                      <Link 
                         to="/account" 
-                        className="text-lg font-medium hover:text-tourwang-orange transition-colors"
+                        className="text-lg font-medium hover:text-tourwang-orange"
                       >
                         บัญชีของฉัน
                       </Link>
-                      <Button 
-                        variant="ghost" 
-                        className="mt-4 w-full justify-start px-0 text-muted-foreground hover:text-tourwang-orange"
-                        onClick={() => console.log("Logout clicked")}
-                      >
-                        ออกจากระบบ
-                      </Button>
                     </>
+                  )}
+                </nav>
+                
+                <div className="mt-auto pt-6">
+                  {user ? (
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      onClick={signOut}
+                    >
+                      ออกจากระบบ
+                    </Button>
                   ) : (
-                    <Link to="/login">
-                      <Button className="w-full bg-tourwang-orange hover:bg-tourwang-orange/90">
+                    <div className="grid gap-2">
+                      <Button 
+                        variant="default" 
+                        className="w-full"
+                        onClick={() => navigate('/login')}
+                      >
                         เข้าสู่ระบบ
                       </Button>
-                    </Link>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => navigate('/register')}
+                      >
+                        สมัครสมาชิก
+                      </Button>
+                    </div>
                   )}
                 </div>
-              </nav>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
-
-      {/* Mobile Search Bar (Expandable) */}
-      {isSearchOpen && (
-        <div className="md:hidden container pb-3">
-          <div className="relative w-full">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="ค้นหาร้านอาหารหรือเมนู..."
-              className="w-full rounded-md pl-8"
-              autoFocus
-            />
-          </div>
-        </div>
-      )}
     </header>
   );
 };
