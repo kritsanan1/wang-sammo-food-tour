@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+                // Tour Der Wang custom colors
+                tourwang: {
+                    orange: '#F97316', // Brand orange matching logo
+                    brown: '#422006', // Deep brown for contrast
+                    cream: '#FEF7CD', // Warm light accent
+                    lightOrange: '#FDBA74', // Lighter orange
+                    softGray: '#F8FAFC', // Background color
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
