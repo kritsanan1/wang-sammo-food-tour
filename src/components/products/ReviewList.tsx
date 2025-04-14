@@ -3,7 +3,7 @@ import React from 'react';
 import { Review } from '@/types/product';
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDistanceToNow } from 'date-fns';
-import { thTH } from 'date-fns/locale';
+import { th } from 'date-fns/locale';  // Corrected import
 
 interface ReviewListProps {
   reviews: Review[];
@@ -35,7 +35,7 @@ function ReviewCard({ review }: ReviewCardProps) {
   const formattedDate = review.created_at 
     ? formatDistanceToNow(new Date(review.created_at), { 
         addSuffix: true, 
-        locale: thTH 
+        locale: th  // Use 'th' instead of 'thTH'
       })
     : '';
 
@@ -67,3 +67,4 @@ function ReviewCard({ review }: ReviewCardProps) {
     </Card>
   );
 }
+
