@@ -2,10 +2,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { UserMenu } from "./UserMenu";
-import CartButton from "./CartButton";
-import SearchInput from "./SearchInput";
+import { CartButton } from "./CartButton";
+import { SearchInput } from "./SearchInput";
 
-const Navigation: React.FC = () => {
+interface NavigationProps {
+  isMobile?: boolean;
+}
+
+export const Navigation: React.FC<NavigationProps> = ({ isMobile }) => {
   return (
     <nav className="py-2 border-b shadow-sm">
       <div className="container mx-auto flex justify-between items-center">

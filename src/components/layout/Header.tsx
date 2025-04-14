@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Navigation } from "./Navigation";
+import Navigation from "./Navigation";
 import { SearchInput } from "./SearchInput";
 import { UserMenu } from "./UserMenu";
 import { CartButton } from "./CartButton";

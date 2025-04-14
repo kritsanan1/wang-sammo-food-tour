@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchInput } from "./SearchInput";
-import { Navigation } from "./Navigation";
+import Navigation from "./Navigation";
 import { CartButton } from "./CartButton";
 
 export const MobileMenu: React.FC = () => {
@@ -102,3 +102,5 @@ export const MobileMenu: React.FC = () => {
     </div>
   );
 };
+
+export default MobileMenu;

@@ -49,3 +49,5 @@ export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
     </div>
   );
 };
+
+export default SearchInput;
