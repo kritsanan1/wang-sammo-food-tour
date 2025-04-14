@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +9,7 @@ import { CartProvider } from "./contexts/CartContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import RestaurantListingPage from "./pages/RestaurantListingPage";
+import RestaurantDetailPage from "./pages/RestaurantDetailPage";
 import ProductPage from "./pages/ProductPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -29,7 +30,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/restaurants" element={<RestaurantListingPage />} />
-              <Route path="/restaurants/:id" element={<NotFound />} />
+              <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
               <Route path="/products/:id" element={<ProductPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/cart" element={
