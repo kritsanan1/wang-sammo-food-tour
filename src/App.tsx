@@ -14,6 +14,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CartPage from "./pages/CartPage";
 import NotFound from "./pages/NotFound";
+import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/restaurants" element={<RestaurantListingPage />} />
               <Route path="/restaurants/:id" element={<NotFound />} />
               <Route path="/products/:id" element={<ProductPage />} />
+              <Route path="/auth" element={<AuthPage />} />
               <Route path="/cart" element={
                 <ProtectedRoute>
                   <CartPage />
