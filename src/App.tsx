@@ -9,6 +9,7 @@ import { CartProvider } from "./contexts/CartContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import RestaurantListingPage from "./pages/RestaurantListingPage";
+import ProductPage from "./pages/ProductPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CartPage from "./pages/CartPage";
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/" element={<HomePage />} />
               <Route path="/restaurants" element={<RestaurantListingPage />} />
               <Route path="/restaurants/:id" element={<NotFound />} />
+              <Route path="/products/:id" element={<ProductPage />} />
               <Route path="/cart" element={
                 <ProtectedRoute>
                   <CartPage />
