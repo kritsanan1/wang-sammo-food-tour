@@ -92,12 +92,12 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Sarabun', 'Inter', sans-serif;
   }
 
   /* Custom heading styles */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-tourwang-brown dark:text-tourwang-cream;
+    @apply font-bold;
   }
   
   /* Custom scrollbar */
@@ -110,7 +110,12 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-tourwang-orange rounded-full;
+    @apply bg-gold rounded-full;
+  }
+  
+  /* Parallax effect for backgrounds */
+  .bg-parallax {
+    @apply bg-fixed bg-cover bg-center bg-no-repeat;
   }
 }
 
@@ -126,5 +131,18 @@
   
   .rating-stars {
     @apply text-yellow-400;
+  }
+  
+  /* Cultural tourism website styles */
+  .cta-button {
+    @apply bg-gradient-to-r from-gold to-gold-light text-navy font-bold px-6 py-3 rounded-full shadow-[0_4px_14px_rgba(212,175,55,0.4)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.6)] transition-all duration-300 transform hover:-translate-y-1;
+  }
+  
+  .feature-card {
+    @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer border-l-4 border-navy;
+  }
+  
+  .stat-box {
+    @apply bg-white/20 backdrop-blur-md rounded-lg px-4 py-3 flex items-center space-x-3 border border-white/30;
   }
 }

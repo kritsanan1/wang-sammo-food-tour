@@ -70,7 +70,16 @@ export default {
                     cream: '#FEF7CD', // Warm light accent
                     lightOrange: '#FDBA74', // Lighter orange
                     softGray: '#F8FAFC', // Background color
-                }
+                },
+				// Wang Sam Mo cultural tourism website colors
+				navy: '#1E3A8A',  // Primary Navy color
+				gold: '#D4AF37',  // Primary Gold color
+				'gold-light': '#F2D478', // Lighter gold for hover states
+				'navy-dark': '#152B66', // Darker navy for hover states
+			},
+			fontFamily: {
+				sarabun: ['Sarabun', 'sans-serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -79,25 +88,27 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0', opacity: '0' },
+					to: { height: 'var(--radix-accordion-content-height)', opacity: '1' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
+					to: { height: '0', opacity: '0' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'slide-in': {
+					'0%': { transform: 'translateX(-100%)' },
+					'100%': { transform: 'translateX(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out forwards',
+				'slide-in': 'slide-in 0.3s ease-out',
 			}
 		}
 	},
